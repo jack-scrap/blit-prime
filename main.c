@@ -14,8 +14,8 @@ typedef struct {
 } Col;
 
 const unsigned int res[2] = {
-	800,
-	600
+	100,
+	100
 };
 
 enum {
@@ -27,6 +27,16 @@ uint32_t rmask = 0xff000000;
 uint32_t gmask = 0x00ff0000;
 uint32_t bmask = 0x0000ff00;
 uint32_t amask = 0x000000ff;
+
+int prime(int n) {
+	for (int i = 2; i <= n / 2; i++) {
+		if (!(n % i)) {
+			return false;
+		}
+	}
+
+	return true;
+}
 
 int blitPix(unsigned char data[res[Y]][res[X]][3 + 1], Coord st, Col col) {
 	if (!(st._x <= res[X] && st._y <= res[Y])) {
@@ -81,8 +91,10 @@ int main() {
 				y
 			};
 
-			if (blitPix(data, st, red)) {
-				printf("Error\n");
+			if (prime((y * res[0]) + x)) {
+				if (blitPix(data, st, red)) {
+					printf("Error\n");
+				}
 			}
 		}
 	}
